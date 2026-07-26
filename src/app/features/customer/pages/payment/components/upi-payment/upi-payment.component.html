@@ -1,0 +1,69 @@
+<mat-card class="upi-card">
+  <div class="upi-layout">
+    <section class="upi-form-panel">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Unified Payments Interface</p>
+          <h4>UPI Payment</h4>
+        </div>
+        <span class="brand-tag">Fastest</span>
+      </div>
+
+      <div class="app-row" aria-label="UPI apps">
+        @for (app of apps; track app) {
+          <button type="button" class="app-chip" [class.active]="selectedApp === app" (click)="selectApp(app)">
+            <span>{{ app }}</span>
+          </button>
+        }
+      </div>
+
+      <form class="upi-form" [formGroup]="form" (ngSubmit)="pay()">
+        <mat-form-field appearance="outline">
+          <mat-label>UPI ID</mat-label>
+          <input matInput formControlName="upiId" placeholder="name@upi" autocomplete="off" (input)="onUpiInput($event)" />
+          @if (hasError('upiId', 'required')) {
+            <mat-error>Enter your UPI ID.</mat-error>
+          }
+          @if (hasError('upiId', 'pattern')) {
+            <mat-error>Use a valid UPI format like name@upi.</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="upi-actions">
+          <button mat-flat-button color="primary" type="submit" [disabled]="processing()">
+            @if (processing()) {
+              <span class="inline-spinner"></span>
+              Processing...
+            } @else {
+              Pay Now
+            }
+          </button>
+          <p class="helper">Your app will open a secure payment confirmation mock.</p>
+        </div>
+      </form>
+    </section>
+
+    <section class="qr-panel" aria-label="UPI QR code preview">
+      <div class="qr-card">
+        <div class="qr-topline">
+          <lucide-icon name="qr-code" size="24"></lucide-icon>
+          <div>
+            <strong>Scan to Pay</strong>
+            <span>Mock QR for app demo</span>
+          </div>
+        </div>
+
+        <div class="qr-grid" aria-hidden="true">
+          @for (row of [1, 2, 3, 4, 5, 6, 7, 8, 9]; track row) {
+            <span></span>
+          }
+        </div>
+
+        <div class="secure-note">
+          <lucide-icon name="lock" size="16"></lucide-icon>
+          <span>Encrypted UPI handoff</span>
+        </div>
+      </div>
+    </section>
+  </div>
+</mat-card>

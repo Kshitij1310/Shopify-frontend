@@ -1,0 +1,51 @@
+<mat-card class="status-card" [class.processing]="status() === 'processing'" [class.success]="status() === 'success'" [class.failed]="status() === 'failed'">
+  @if (status() === 'processing') {
+    <div class="status-content center">
+      <mat-progress-spinner mode="indeterminate" diameter="44"></mat-progress-spinner>
+      <div>
+        <h4>Processing payment</h4>
+        <p>Verifying payment with the gateway...</p>
+      </div>
+    </div>
+  } @else if (status() === 'success') {
+    <div class="status-content center">
+      <div class="status-icon success-icon">
+        <lucide-icon name="check" size="20"></lucide-icon>
+      </div>
+      <div>
+        <h4>{{ title() || 'Payment Successful' }}</h4>
+        <p>{{ message() || 'Your order has been confirmed.' }}</p>
+        @if (referenceId()) {
+          <span class="reference">Ref: {{ referenceId() }}</span>
+        }
+      </div>
+      <div class="actions">
+        <button mat-flat-button color="primary" type="button" (click)="continueToOrders.emit()">Go to Orders</button>
+      </div>
+    </div>
+  } @else if (status() === 'failed') {
+    <div class="status-content center">
+      <div class="status-icon failed-icon">
+        <lucide-icon name="x" size="20"></lucide-icon>
+      </div>
+      <div>
+        <h4>{{ title() || 'Payment Failed' }}</h4>
+        <p>{{ message() || 'Please try again with another method.' }}</p>
+        @if (referenceId()) {
+          <span class="reference">Ref: {{ referenceId() }}</span>
+        }
+      </div>
+      <div class="actions">
+        <button mat-flat-button color="warn" type="button" (click)="retry.emit()">Retry Payment</button>
+      </div>
+    </div>
+  } @else {
+    <div class="status-content empty">
+      <lucide-icon name="badge-check" size="22"></lucide-icon>
+      <div>
+        <h4>Ready to pay</h4>
+        <p>Select a method and continue checkout.</p>
+      </div>
+    </div>
+  }
+</mat-card>

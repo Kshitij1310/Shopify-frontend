@@ -1,0 +1,127 @@
+<div class="cart-container">
+  <div class="cart-header">
+    <h1>Shopping Cart</h1>
+    @if (cartItems.length > 0) {
+      <p class="item-count">{{ cartItems.length }} item{{ cartItems.length !== 1 ? 's' : '' }} in cart</p>
+    }
+  </div>
+
+  @if (cartItems.length === 0) {
+    <div class="empty-cart">
+      <mat-card class="empty-state">
+        <div class="empty-icon">
+          <lucide-icon name="shopping-cart" size="56"></lucide-icon>
+        </div>
+        <h2>Your cart is empty</h2>
+        <p>Looks like you haven't added anything yet. Start shopping now!</p>
+        <button mat-flat-button color="primary" (click)="continueShopping()" class="shop-btn">
+          Continue Shopping
+        </button>
+      </mat-card>
+    </div>
+  } @else {
+    <div class="cart-content">
+      <!-- Cart Items -->
+      <div class="cart-items">
+        <mat-card class="items-header">
+          <div class="items-title">Product Details</div>
+        </mat-card>
+
+        <div class="items-list">
+          @for (item of cartItems; track item.id) {
+            <mat-card class="cart-item">
+              <div class="item-image">
+                <img [src]="item.product.imageUrl || defaultImageUrl" [alt]="item.product.name" width="400" height="200" loading="eager" />
+              </div>
+              <div class="item-details">
+                <h3>{{ item.product.name }}</h3>
+                <p class="item-price">Rs. {{ item.product.price | number }}</p>
+                <p class="item-stock" [class.out-of-stock]="item.product.quantity <= 0">
+                  {{ item.product.quantity <= 0 ? 'Out of stock' : (item.product.quantity + ' left') }}
+                </p>
+              </div>
+              <div class="item-quantity">
+                <button mat-icon-button class="icon-btn qty-btn" (click)="updateQty(item, -1)" [disabled]="item.quantity <= 1" aria-label="Decrease quantity">
+                  <lucide-icon name="minus" size="16"></lucide-icon>
+                </button>
+                <input type="number" [value]="item.quantity" (change)="onQtyChange(item, $event)" class="qty-input" />
+                <button mat-icon-button class="icon-btn qty-btn" (click)="updateQty(item, 1)" [disabled]="item.quantity >= item.product.quantity || item.product.quantity <= 0" aria-label="Increase quantity">
+                  <lucide-icon name="plus" size="16"></lucide-icon>
+                </button>
+              </div>
+              <div class="item-total">
+                <div class="total-label">Subtotal</div>
+                <div class="total-amount">Rs. {{ (item.quantity * item.product.price) | number }}</div>
+              </div>
+              <button mat-icon-button class="remove-btn icon-btn" (click)="remove(item)" matTooltip="Remove from cart" aria-label="Remove from cart">
+                <lucide-icon name="trash-2" size="16"></lucide-icon>
+              </button>
+            </mat-card>
+          }
+        </div>
+      </div>
+
+      <!-- Summary Sidebar -->
+      <div class="cart-summary">
+        <mat-card class="summary-card">
+          <h2>Order Summary</h2>
+          
+          <div class="summary-section">
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <span>Rs. {{ total | number }}</span>
+            </div>
+            <div class="summary-row">
+              <span>Shipping</span>
+              <span class="free">Free</span>
+            </div>
+            <div class="summary-row">
+              <span>Tax</span>
+              <span>Rs. {{ (total * 0.1) | number }}</span>
+            </div>
+            <div class="divider"></div>
+            <div class="summary-row total">
+              <strong>Total</strong>
+              <strong class="total-price">Rs. {{ (total * 1.1) | number }}</strong>
+            </div>
+          </div>
+
+          <div class="wallet-section">
+            <div class="wallet-header">
+              <span>Wallet Balance</span>
+              <span class="balance">Rs. {{ walletBalance | number }}</span>
+            </div>
+            <p class="wallet-info" [ngClass]="{ sufficient: walletBalance >= total * 1.1, insufficient: walletBalance < total * 1.1 }">
+              @if (walletBalance >= total * 1.1) {
+                ✓ Sufficient balance
+              } @else {
+                Need Rs. {{ ((total * 1.1) - walletBalance) | number }} more
+              }
+            </p>
+            <button mat-stroked-button (click)="expandWallet = !expandWallet" class="topup-toggle">
+              {{ expandWallet ? '− Hide' : '+ Add Money' }}
+            </button>
+            @if (expandWallet) {
+              <div class="topup-options">
+                <button mat-stroked-button (click)="topUp(500)" class="topup-btn">+Rs. 500</button>
+                <button mat-stroked-button (click)="topUp(1000)" class="topup-btn">+Rs. 1000</button>
+                <button mat-stroked-button (click)="topUp(2000)" class="topup-btn">+Rs. 2000</button>
+              </div>
+            }
+          </div>
+
+          <button mat-flat-button color="primary" (click)="goToCheckout()" class="checkout-btn" [disabled]="walletBalance < total * 1.1 || !canCheckout">
+            Proceed to Checkout
+          </button>
+          @if (!canCheckout) {
+            <p class="stock-warning">Some items are out of stock. Remove or reduce them to continue.</p>
+          }
+          <button mat-stroked-button (click)="continueShopping()" class="continue-btn">
+            Continue Shopping
+          </button>
+        </mat-card>
+      </div>
+    </div>
+  }
+</div>
+

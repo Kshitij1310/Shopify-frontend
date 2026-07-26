@@ -1,0 +1,249 @@
+.payment-page {
+  display: grid;
+  gap: 20px;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.payment-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 28px;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.12), transparent 34%),
+    linear-gradient(135deg, #1f2937 0%, #475569 55%, #64748b 100%);
+  color: #fff;
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.1);
+}
+
+.hero-copy {
+  display: grid;
+  gap: 8px;
+}
+
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  opacity: 0.84;
+}
+
+.payment-hero h2 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  line-height: 0.98;
+  letter-spacing: -0.06em;
+}
+
+.hero-copy-text {
+  margin: 0;
+  max-width: 62ch;
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.secure-badge,
+.powered-by,
+.wallet-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.secure-badge {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.powered-by {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.hero-total {
+  min-width: 220px;
+  display: grid;
+  gap: 6px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(14px);
+}
+
+.hero-total span {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.84;
+}
+
+.hero-total strong {
+  font-size: 1.35rem;
+}
+
+.hero-total small {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.payment-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.payment-main,
+.payment-side {
+  display: grid;
+  gap: 18px;
+  align-items: start;
+}
+
+.wallet-card,
+.empty-panel {
+  padding: 22px;
+  border-radius: 22px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.06);
+  background: linear-gradient(180deg, #ffffff 0%, #faf7f2 100%);
+}
+
+.wallet-card {
+  display: grid;
+  gap: 14px;
+}
+
+.wallet-head,
+.wallet-balance {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.wallet-head h3,
+.empty-panel h3 {
+  margin: 0;
+  color: #0f172a;
+}
+
+.wallet-pill {
+  background: #f5f3ff;
+  color: #7c3aed;
+}
+
+.wallet-balance {
+  padding: 16px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #1f2937 0%, #334155 100%);
+  color: #fff;
+}
+
+.wallet-balance span,
+.wallet-copy,
+.empty-panel p {
+  color: #64748b;
+}
+
+.wallet-balance span {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.84rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.wallet-balance strong {
+  font-size: 1.35rem;
+}
+
+.wallet-copy {
+  margin: 0;
+}
+
+.wallet-warning {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: #f7efe7;
+  color: #8f4b1f;
+}
+
+.wallet-card button {
+  justify-self: start;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.empty-panel {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+}
+
+.empty-panel lucide-icon {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #f6f1ea;
+  color: #c76a2a;
+}
+
+.empty-panel p {
+  margin: 0;
+}
+
+.empty-panel button {
+  border-radius: 999px;
+}
+
+@media (max-width: 980px) {
+  .payment-hero,
+  .wallet-head,
+  .wallet-balance {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .payment-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-total {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .payment-hero,
+  .wallet-card,
+  .empty-panel {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .payment-hero h2 {
+    font-size: 1.8rem;
+  }
+}

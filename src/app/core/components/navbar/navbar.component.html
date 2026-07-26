@@ -1,0 +1,23 @@
+<mat-toolbar class="nav-toolbar">
+  <div class="nav-brand" routerLink="/customer/home">ShopSphere</div>
+  <span class="nav-spacer"></span>
+
+  @if (profile$ | async; as profile) {
+    <button mat-button routerLink="/customer/home">Home</button>
+    <button mat-button routerLink="/customer/products">Products</button>
+    @if (profile.role === 'customer') {
+      <button mat-button routerLink="/customer/cart">Cart</button>
+      <button mat-button routerLink="/customer/wishlist">Wishlist</button>
+      <button mat-button routerLink="/customer/orders">Orders</button>
+    }
+    @if (profile.role === 'partner') {
+      <button mat-button routerLink="/seller/dashboard">Dashboard</button>
+      <button mat-button routerLink="/seller/products/new">Add Product</button>
+      <button mat-button routerLink="/seller/orders">Seller Orders</button>
+    }
+    <button mat-flat-button (click)="logout()">Logout</button>
+  } @else {
+    <button mat-button routerLink="/auth/login">Login</button>
+    <button mat-flat-button routerLink="/auth/signup">Signup</button>
+  }
+</mat-toolbar>

@@ -1,0 +1,116 @@
+<section class="payment-page">
+  <header class="payment-hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Secure checkout</p>
+      <h2>Complete your payment</h2>
+      <p class="hero-copy-text">A clean checkout flow with UPI, card, and wallet options, built to feel like a modern payments experience.</p>
+
+      <div class="hero-meta">
+        <span class="secure-badge">
+          <lucide-icon name="lock" size="16"></lucide-icon>
+          Secure Payment
+        </span>
+        <span class="powered-by">Powered by Razorpay / Stripe (mock)</span>
+      </div>
+    </div>
+
+    @if (orderDraft) {
+      <div class="hero-total">
+        <span>Grand Total</span>
+        <strong>Rs. {{ grandTotal.toFixed(2) }}</strong>
+        <small>Subtotal Rs. {{ subtotal.toFixed(2) }} + Tax Rs. {{ tax.toFixed(2) }}</small>
+      </div>
+    }
+  </header>
+
+  @if (!orderDraft) {
+    <mat-card class="empty-panel">
+      <lucide-icon name="shopping-cart" size="28"></lucide-icon>
+      <h3>No checkout data found</h3>
+      <p>Please return to your cart and start checkout again.</p>
+      <button mat-flat-button color="primary" routerLink="/customer/cart">Go to Cart</button>
+    </mat-card>
+  } @else {
+    <div class="payment-grid">
+      <div class="payment-main">
+        <app-payment-method-selector
+          [selectedMethod]="selectedMethod"
+          (methodSelected)="selectMethod($event)"
+        ></app-payment-method-selector>
+
+        @switch (selectedMethod) {
+          @case ('upi') {
+            <app-upi-payment
+              [processing]="isProcessing"
+              (submitPayment)="submitUpiPayment($event)"
+            ></app-upi-payment>
+          }
+
+          @case ('card') {
+            <app-card-payment
+              [processing]="isProcessing"
+              (submitPayment)="submitCardPayment($event)"
+            ></app-card-payment>
+          }
+
+          @case ('wallet') {
+            <mat-card class="wallet-card">
+              <div class="wallet-head">
+                <div>
+                  <p class="eyebrow">Optional wallet</p>
+                  <h3>Wallet Checkout</h3>
+                </div>
+                <span class="wallet-pill">Balance</span>
+              </div>
+
+              <div class="wallet-balance">
+                <span>Available balance</span>
+                <strong>Rs. {{ walletBalance.toFixed(2) }}</strong>
+              </div>
+
+              <p class="wallet-copy">Use your wallet balance for instant checkout. If the balance is lower than the payable amount, you can retry using UPI or card.</p>
+
+              @if (!canUseWallet) {
+                <div class="wallet-warning">
+                  <lucide-icon name="circle-alert" size="18"></lucide-icon>
+                  <span>Insufficient wallet balance for this order.</span>
+                </div>
+              }
+
+              <button
+                mat-flat-button
+                color="primary"
+                type="button"
+                [disabled]="isProcessing || !canUseWallet"
+                (click)="submitWalletPayment()"
+              >
+                @if (isProcessing) {
+                  Processing...
+                } @else {
+                  Pay with Wallet
+                }
+              </button>
+            </mat-card>
+          }
+        }
+      </div>
+
+      <aside class="payment-side">
+        <app-order-summary
+          [summary]="summary"
+          [appliedCoupon]="appliedCoupon?.code ?? null"
+          (couponApplied)="applyCoupon($event)"
+        ></app-order-summary>
+
+        <app-payment-status
+          [status]="paymentStatus"
+          [title]="paymentTitle"
+          [message]="statusMessage"
+          [referenceId]="paymentReferenceId"
+          (retry)="retryPayment()"
+          (continueToOrders)="goToOrders()"
+        ></app-payment-status>
+      </aside>
+    </div>
+  }
+</section>

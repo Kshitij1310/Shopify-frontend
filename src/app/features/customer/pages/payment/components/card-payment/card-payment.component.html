@@ -1,0 +1,92 @@
+<mat-card class="card-payment-card">
+  <div class="card-layout">
+    <section class="card-preview">
+      <div class="preview-topline">
+        <p class="eyebrow">Card payment</p>
+        <span class="brand-pill">{{ cardBrand }}</span>
+      </div>
+
+      <div class="preview-chip">Secure EMV style checkout</div>
+
+      <div class="preview-number">{{ maskedCardNumber }}</div>
+
+      <div class="preview-row">
+        <div>
+          <span>Cardholder</span>
+          <strong>{{ form.controls.cardholderName.value || 'Your name' }}</strong>
+        </div>
+        <div>
+          <span>Expiry</span>
+          <strong>{{ form.controls.expiry.value || 'MM/YY' }}</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="card-form-panel">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Credit / Debit</p>
+          <h4>Card Details</h4>
+        </div>
+        <lucide-icon name="credit-card" size="20"></lucide-icon>
+      </div>
+
+      <form class="card-form" [formGroup]="form" (ngSubmit)="pay()">
+        <mat-form-field appearance="outline">
+          <mat-label>Card Number</mat-label>
+          <input matInput formControlName="cardNumber" inputmode="numeric" autocomplete="cc-number" maxlength="19" placeholder="1234 5678 9012 3456" (input)="onCardNumberInput($event)" />
+          @if (hasError('cardNumber', 'required')) {
+            <mat-error>Card number is required.</mat-error>
+          }
+          @if (hasError('cardNumber', 'pattern')) {
+            <mat-error>Enter a valid 16-digit card number.</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="split-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Expiry Date</mat-label>
+            <input matInput formControlName="expiry" inputmode="numeric" autocomplete="cc-exp" maxlength="5" placeholder="MM/YY" (input)="onExpiryInput($event)" />
+            @if (hasError('expiry', 'required')) {
+              <mat-error>Expiry date is required.</mat-error>
+            }
+            @if (hasError('expiry', 'pattern')) {
+              <mat-error>Use MM/YY format.</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>CVV</mat-label>
+            <input matInput formControlName="cvv" type="password" inputmode="numeric" autocomplete="cc-csc" maxlength="3" placeholder="123" (input)="onCvvInput($event)" />
+            @if (hasError('cvv', 'required')) {
+              <mat-error>CVV is required.</mat-error>
+            }
+            @if (hasError('cvv', 'pattern')) {
+              <mat-error>Enter a 3-digit CVV.</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Cardholder Name</mat-label>
+          <input matInput formControlName="cardholderName" autocomplete="cc-name" placeholder="Name on card" />
+          @if (hasError('cardholderName', 'required')) {
+            <mat-error>Cardholder name is required.</mat-error>
+          }
+          @if (hasError('cardholderName', 'minlength')) {
+            <mat-error>Cardholder name is too short.</mat-error>
+          }
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" type="submit" [disabled]="processing()">
+          @if (processing()) {
+            <span class="inline-spinner"></span>
+            Processing...
+          } @else {
+            Pay Securely
+          }
+        </button>
+      </form>
+    </section>
+  </div>
+</mat-card>

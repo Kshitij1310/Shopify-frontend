@@ -1,0 +1,16 @@
+<mat-card [ngClass]="'kpi-card tone-' + (data.tone || 'neutral')">
+  @if (data.icon) {
+    <p class="kpi-icon" aria-hidden="true">{{ data.icon }}</p>
+  }
+  <p class="label">{{ data.label }}</p>
+  <h3>{{ data.value }}</h3>
+  @if (data.subtext) {
+    <p class="meta">{{ data.subtext }}</p>
+  }
+  @if (data.trend) {
+    <div class="trend" [ngClass]="data.trend.direction">
+      <span>{{ data.trend.label }}</span>
+      <strong>{{ data.trend.direction === 'up' ? '↑' : '↓' }} {{ data.trend.percentage }}%</strong>
+    </div>
+  }
+</mat-card>
