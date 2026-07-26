@@ -1,0 +1,38 @@
+<div class="container">
+  <!-- LEFT SIDE - FORM -->
+  <div class="left">
+    <div class="login-card">
+      <h3 class="logo">ShopHub</h3>
+      <p class="welcome">Welcome back</p>
+      <h2>Sign in to your account</h2>
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div>
+          <label for="email">Email Address</label>
+          <input id="email" type="email" formControlName="email" placeholder="Enter your email" />
+        </div>
+
+        <div>
+          <label for="password">Password</label>
+          <input id="password" type="password" formControlName="password" placeholder="Enter your password" />
+        </div>
+
+        <button type="submit">SIGN IN</button>
+      </form>
+
+      <p class="signup">
+        New here? <span routerLink="/auth/signup">Create an account</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDE - ILLUSTRATION -->
+  <div class="right">
+    <img src="assets/products/Login_Shop.svg" alt="Login illustration" />
+    <div class="hero-copy">
+      <p class="hero-kicker">Smart Shopping Experience</p>
+      <h3>Find products you love, faster.</h3>
+      <p>Track orders, manage wishlist, and checkout in seconds.</p>
+    </div>
+  </div>
+</div> 

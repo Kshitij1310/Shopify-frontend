@@ -1,0 +1,270 @@
+@if (dashboard$ | async; as vm) {
+  <section class="home-page">
+    <header class="welcome-banner">
+      <div class="welcome-copy">
+        <p class="eyebrow">Customer dashboard</p>
+        <h1>Welcome back, {{ vm.displayName }}! 👋</h1>
+        <p class="hero-sub">Here’s what’s happening with your account today.</p>
+
+        <div class="hero-cta">
+          <a class="btn-primary" routerLink="/customer/products">Continue Shopping</a>
+          <a class="btn-ghost" routerLink="/customer/profile">View Profile</a>
+        </div>
+      </div>
+
+      <div class="welcome-art">
+        <div class="hero-figure">
+          <div class="figure-glow"></div>
+          <img
+            class="figure-avatar"
+            [src]="vm.avatarUrl"
+            [alt]="vm.displayName"
+            (error)="onImageError($event)"
+          />
+          <div class="floating-chip chip-left">Free shipping</div>
+          <div class="floating-chip chip-right">New offers</div>
+          <div class="figure-base">
+            <span class="figure-bar"></span>
+            <span class="figure-bar short"></span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="stats-row">
+      <article class="stat-card stat-orders">
+        <div class="stat-icon stat-icon-blue">
+          <lucide-icon name="layout-grid" size="18"></lucide-icon>
+        </div>
+        <div>
+          <p>Total Orders</p>
+          <strong>{{ vm.totalOrders }}</strong>
+          <span>{{ vm.completedOrders }} completed orders</span>
+        </div>
+      </article>
+
+      <article class="stat-card stat-wishlist">
+        <div class="stat-icon stat-icon-violet">
+          <lucide-icon name="heart" size="18"></lucide-icon>
+        </div>
+        <div>
+          <p>Wishlist Items</p>
+          <strong>{{ vm.wishlistCount }}</strong>
+          <span>Items saved for later</span>
+        </div>
+      </article>
+
+      <!-- <article class="stat-card stat-coupons">
+        <div class="stat-icon stat-icon-green">
+          <lucide-icon name="tag" size="18"></lucide-icon>
+        </div>
+        <div>
+          <p>Available Coupons</p>
+          <strong>{{ vm.availableCoupons }}</strong>
+          <span>Save more on your next order</span>
+        </div>
+      </article> -->
+
+      <article class="stat-card stat-wallet">
+        <div class="stat-icon stat-icon-orange">
+          <lucide-icon name="wallet" size="18"></lucide-icon>
+        </div>
+        <div>
+          <p>Wallet Balance</p>
+          <strong>₹{{ vm.walletBalance | number : '1.0-0' }}</strong>
+          <a routerLink="/customer/cart">View wallet</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="chip-row">
+      @for (chip of chips; track chip) {
+        <button
+          type="button"
+          class="chip"
+          [class.chip-active]="activeChip === chip"
+          (click)="selectChip(chip)"
+        >
+          {{ chip }}
+        </button>
+      }
+    </div>
+
+    <div class="content-grid">
+      <section class="panel recent-orders-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Recent Orders</h2>
+            <p>Track your latest purchases and delivery progress.</p>
+          </div>
+          <a routerLink="/customer/orders">View all orders →</a>
+        </div>
+
+        @if (vm.recentOrders.length === 0) {
+          <div class="empty-state compact">
+            <h3>No orders yet</h3>
+            <p>Start shopping to see your order timeline here.</p>
+            <a class="btn-primary small" routerLink="/customer/products">Browse Products</a>
+          </div>
+        } @else {
+          <div class="orders-list">
+            @for (order of vm.recentOrders; track order.id) {
+              <article class="order-row">
+                <div class="order-avatar">
+                  <lucide-icon name="shopping-bag" size="18"></lucide-icon>
+                </div>
+                <div class="order-copy">
+                  <h3>{{ order.title }}</h3>
+                  <p>Order ID: {{ order.id }} - {{ order.subtitle }}</p>
+                </div>
+                <span class="status-pill" [ngClass]="order.statusClass">{{ order.statusLabel }}</span>
+                <strong class="order-amount">₹{{ order.amount | number : '1.0-0' }}</strong>
+                <lucide-icon name="chevron-right" size="18" class="row-caret"></lucide-icon>
+              </article>
+            }
+          </div>
+        }
+      </section>
+
+      <aside class="panel wishlist-panel">
+        <div class="panel-header">
+          <div>
+            <h2>My Wishlist</h2>
+            <p>{{ vm.wishlistCount }} items saved for later.</p>
+          </div>
+          <a routerLink="/customer/wishlist">View all →</a>
+        </div>
+
+        @if (vm.wishlistItems.length === 0) {
+          <div class="empty-state compact">
+            <h3>No wishlist items</h3>
+            <p>Save products to compare them later.</p>
+          </div>
+        } @else {
+          <div class="wishlist-list">
+            @for (item of vm.wishlistItems; track item.id) {
+              <article class="wishlist-row">
+                <img [src]="item.imageUrl" [alt]="item.name" width="400" height="200" loading="eager" (error)="onImageError($event)" />
+                <div class="wishlist-copy">
+                  <h3>{{ item.name }}</h3>
+                  <p>{{ item.category }}</p>
+                  <strong>₹{{ item.price | number : '1.0-0' }}</strong>
+                </div>
+                <button type="button" class="wishlist-heart" aria-label="Saved item">♥</button>
+              </article>
+            }
+          </div>
+        }
+      </aside>
+    </div>
+
+    <section class="panel shortcuts-panel">
+      <div class="panel-header">
+        <div>
+          <h2>Quick actions</h2>
+          <p>Jump straight into the parts of the store you use most.</p>
+        </div>
+      </div>
+
+      <div class="shortcuts-grid">
+        <a class="shortcut-card" routerLink="/customer/products">
+          <span class="shortcut-icon shortcut-blue"><lucide-icon name="shopping-bag" size="18"></lucide-icon></span>
+          <strong>Shop products</strong>
+          <p>Browse the latest catalog.</p>
+        </a>
+
+        <a class="shortcut-card" routerLink="/customer/cart">
+          <span class="shortcut-icon shortcut-orange"><lucide-icon name="shopping-cart" size="18"></lucide-icon></span>
+          <strong>Open cart</strong>
+          <p>Review your pending items.</p>
+        </a>
+
+        <a class="shortcut-card" routerLink="/customer/checkout">
+          <span class="shortcut-icon shortcut-green"><lucide-icon name="arrow-down-to-line" size="18"></lucide-icon></span>
+          <strong>Checkout</strong>
+          <p>Finish your purchase fast.</p>
+        </a>
+
+        <a class="shortcut-card" routerLink="/customer/payment">
+          <span class="shortcut-icon shortcut-violet"><lucide-icon name="credit-card" size="18"></lucide-icon></span>
+          <strong>Payments</strong>
+          <p>Use wallet or card options.</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="panel recommendations-panel">
+      <div class="panel-header">
+        <div>
+          <h2>Recommended For You</h2>
+          <p>Personalized products based on your current filters.</p>
+        </div>
+        <a routerLink="/customer/products">View all products →</a>
+      </div>
+
+      @if (vm.recommendedProducts.length === 0) {
+        <div class="empty-state compact">
+          <h3>No matching products</h3>
+          <p>Try a different search or category filter.</p>
+        </div>
+      } @else {
+        <div class="product-grid">
+          @for (product of vm.recommendedProducts; track product.id) {
+            <article class="product-card" role="button" tabindex="0" (click)="openProductDetail(product.id)">
+              <div class="product-media">
+                <img
+                  [src]="product.imageUrl"
+                  [alt]="product.name"
+                  width="400"
+                  height="200"
+                  loading="eager"
+                  (error)="onImageError($event)"
+                />
+                <button
+                  type="button"
+                  class="product-fav"
+                  aria-label="Add to wishlist"
+                  (click)="$event.stopPropagation(); addRecommendedToWishlist(product)"
+                >
+                  ♡
+                </button>
+              </div>
+
+              <div class="product-copy">
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.category }}</p>
+                <div class="product-rating">★ {{ product.rating }} <span>({{ product.reviewCount }})</span></div>
+                <div class="product-footer">
+                  <strong>₹{{ product.price | number : '1.0-0' }}</strong>
+                  <button type="button" class="add-button" (click)="$event.stopPropagation(); addRecommendedToCart(product)">
+                    +
+                  </button>
+                </div>
+              </div>
+            </article>
+          }
+        </div>
+      }
+    </section>
+
+    <!-- <aside class="panel offer-panel"> -->
+      <!-- <div class="offer-copy">
+        <p class="eyebrow">Exclusive offer</p>
+        <h2>Get 10% off on your next purchase</h2>
+        <p>Use code SAVE10 at checkout to unlock your customer reward.</p>
+        <div class="offer-code">SAVE10</div>
+      </div> -->
+      <!-- <div class="offer-visual">
+        <div class="gift-card gift-top"></div>
+        <div class="gift-card gift-bottom"></div>
+      </div> -->
+    <!-- </aside> -->
+  </section>
+} @else {
+  <section class="home-page empty-home">
+    <div class="empty-state full-width">
+      <p class="eyebrow">Customer dashboard</p>
+      <h1>Loading your account...</h1>
+    </div>
+  </section>
+}

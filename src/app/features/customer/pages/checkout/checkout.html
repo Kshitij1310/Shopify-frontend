@@ -1,0 +1,168 @@
+<section class="checkout-page">
+  <header class="checkout-hero">
+    <div>
+      <p class="eyebrow">Secure checkout</p>
+      <h2>Checkout</h2>
+      <p class="hero-copy">Review your delivery address, keep defaults saved, and finish the order in a clean, focused flow.</p>
+    </div>
+
+    <div class="checkout-badges">
+      <div class="badge-card">Saved addresses</div>
+      <div class="badge-card">Wallet verified</div>
+      <div class="badge-card">Fast payment</div>
+    </div>
+  </header>
+
+  <div class="checkout-grid">
+  <mat-card class="address-card">
+    <div class="card-header">
+      <h3>Delivery Address</h3>
+      @if (savedAddresses.length > 0) {
+        @if (isAddingAddress) {
+          <button mat-stroked-button type="button" (click)="cancelAddAddress()">Use Saved Address</button>
+        } @else {
+          <button mat-stroked-button type="button" (click)="startAddingAddress()">Add New Address</button>
+        }
+      }
+    </div>
+
+    @if (savedAddresses.length > 0) {
+      <div class="saved-addresses">
+        <h4>Saved Addresses</h4>
+        <mat-radio-group class="address-group" [value]="selectedAddressId" (change)="selectAddress($event.value)">
+          @for (address of savedAddresses; track address.id) {
+            <div class="address-option" [class.selected]="selectedAddressId === address.id">
+              <mat-radio-button [value]="address.id"></mat-radio-button>
+              <div class="address-content">
+                <div class="address-topline">
+                  <strong>{{ address.fullName }}</strong>
+                  @if (address.isDefault) {
+                    <span class="default-chip">Default</span>
+                  }
+                </div>
+                <p>{{ address.line1 }}</p>
+                <p>{{ address.city }}, {{ address.state }} - {{ address.zip }}</p>
+                <p>{{ address.phone }}</p>
+              </div>
+            </div>
+          }
+        </mat-radio-group>
+      </div>
+    }
+
+    @if (savedAddresses.length === 0 || isAddingAddress) {
+      <form class="address-form" [formGroup]="form" (ngSubmit)="saveAddress()">
+        <mat-form-field appearance="outline">
+          <mat-label>Full Name</mat-label>
+          <input matInput formControlName="fullName" autocomplete="name" />
+          @if (hasError('fullName', 'required')) {
+            <mat-error>Full name is required.</mat-error>
+          }
+          @if (hasError('fullName', 'minlength')) {
+            <mat-error>Full name must be at least 2 characters.</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Phone</mat-label>
+          <input
+            matInput
+            formControlName="phone"
+            type="text"
+            inputmode="numeric"
+            autocomplete="tel"
+            maxlength="10"
+            (input)="onNumericInput('phone', $event)"
+          />
+          @if (hasError('phone', 'required')) {
+            <mat-error>Phone number is required.</mat-error>
+          }
+          @if (hasError('phone', 'pattern')) {
+            <mat-error>Phone number must contain exactly 10 digits.</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Address Line</mat-label>
+          <input matInput formControlName="line1" autocomplete="address-line1" />
+          @if (hasError('line1', 'required')) {
+            <mat-error>Address line is required.</mat-error>
+          }
+          @if (hasError('line1', 'minlength')) {
+            <mat-error>Address line must be at least 5 characters.</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>City</mat-label>
+          <input matInput formControlName="city" autocomplete="address-level2" />
+          @if (hasError('city', 'required')) {
+            <mat-error>City is required.</mat-error>
+          }
+          @if (hasError('city', 'minlength')) {
+            <mat-error>City must be at least 2 characters.</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>State</mat-label>
+          <input matInput formControlName="state" autocomplete="address-level1" />
+          @if (hasError('state', 'required')) {
+            <mat-error>State is required.</mat-error>
+          }
+          @if (hasError('state', 'minlength')) {
+            <mat-error>State must be at least 2 characters.</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Pin Code</mat-label>
+          <input
+            matInput
+            formControlName="zip"
+            type="text"
+            inputmode="numeric"
+            autocomplete="postal-code"
+            maxlength="6"
+            (input)="onNumericInput('zip', $event)"
+          />
+          @if (hasError('zip', 'required')) {
+            <mat-error>Pin code is required.</mat-error>
+          }
+          @if (hasError('zip', 'pattern')) {
+            <mat-error>Pin code must contain exactly 6 digits.</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="form-actions full-width">
+          <button mat-flat-button color="primary" type="submit">{{ savedAddresses.length === 0 ? 'Save as Default Address' : 'Save Address' }}</button>
+          @if (savedAddresses.length > 0) {
+            <button mat-button type="button" (click)="cancelAddAddress()">Cancel</button>
+          }
+        </div>
+      </form>
+    }
+
+    @if (selectedAddress) {
+      <div class="selected-address">
+        <h4>Selected Address</h4>
+        <p>{{ selectedAddress.fullName }}</p>
+        <p>{{ selectedAddress.line1 }}</p>
+        <p>{{ selectedAddress.city }}, {{ selectedAddress.state }} - {{ selectedAddress.zip }}</p>
+        <p>{{ selectedAddress.phone }}</p>
+      </div>
+    }
+  </mat-card>
+
+  <mat-card>
+    <h3>Order Summary</h3>
+    <mat-list>
+      @for (item of cartItems; track item.id) {
+        <mat-list-item>{{ item.product.name }} x {{ item.quantity }} - Rs. {{ item.quantity * item.product.price }}</mat-list-item>
+      }
+    </mat-list>
+    <p><strong>Total: Rs. {{ total }}</strong></p>
+    <button mat-flat-button color="primary" (click)="proceed()">Proceed to Payment</button>
+  </mat-card>
+  </div>
+</section>

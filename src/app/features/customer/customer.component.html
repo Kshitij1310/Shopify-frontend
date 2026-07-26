@@ -1,0 +1,97 @@
+<div class="customer-shell">
+  <aside class="sidebar" aria-label="Customer navigation">
+    <div class="brand">ShopHub</div>
+    <p class="subtitle">CUSTOMER PANEL</p>
+
+    <nav>
+      <a routerLink="/customer/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <lucide-icon name="layout-grid" size="16"></lucide-icon>
+        <span>Dashboard</span>
+      </a>
+
+      <a routerLink="/customer/products" routerLinkActive="active">
+        <lucide-icon name="shopping-bag" size="16"></lucide-icon>
+        <span>Products</span>
+      </a>
+
+      <a routerLink="/customer/cart" routerLinkActive="active" class="nav-link-with-badge">
+        <lucide-icon name="shopping-cart" size="16"></lucide-icon>
+        <span>Cart</span>
+        <span class="nav-badge">3</span>
+      </a>
+
+      <a routerLink="/customer/wishlist" routerLinkActive="active">
+        <lucide-icon name="heart" size="16"></lucide-icon>
+        <span>Wishlist</span>
+      </a>
+
+      <a routerLink="/customer/orders" routerLinkActive="active">
+        <lucide-icon name="file-text" size="16"></lucide-icon>
+        <span>Orders</span>
+      </a>
+
+      <a routerLink="/customer/checkout" routerLinkActive="active">
+        <lucide-icon name="arrow-down-to-line" size="16"></lucide-icon>
+        <span>Checkout</span>
+      </a>
+    </nav>
+  </aside>
+
+  <section class="content-wrap">
+    <header class="content-header">
+      <div class="filters-strip">
+        <div class="search-control">
+          <label class="ghost-label" for="header-search">Search</label>
+          <div class="search-shell">
+            <span class="search-icon" aria-hidden="true">🔎</span>
+            <input
+              id="header-search"
+              type="text"
+              [(ngModel)]="searchText"
+              (input)="onSearchChange()"
+              placeholder="Search products"
+            />
+          </div>
+        </div>
+
+        <div class="filter-control">
+          <label for="header-category">Category</label>
+          <select id="header-category" [(ngModel)]="selectedCategory" (change)="onCategoryChange(selectedCategory)">
+            @for (category of categories; track category) {
+              <option [value]="category">{{ category }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="filter-control">
+          <label for="header-sort">Sort by</label>
+          <select id="header-sort" [(ngModel)]="selectedSort" (change)="onSortChange(selectedSort)">
+            <option value="latest">Latest</option>
+            <option value="priceAsc">Price: Low to High</option>
+            <option value="priceDesc">Price: High to Low</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="user-chip" *ngIf="userBadge$ | async as userBadge">
+          <button type="button" class="user-chip-button" [matMenuTriggerFor]="userMenu" aria-label="Open user menu">
+            <span class="user-avatar" aria-hidden="true">{{ userBadge.initial }}</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <mat-menu #userMenu="matMenu" xPosition="before" yPosition="below">
+      <button mat-menu-item routerLink="/customer/profile">My profile</button>
+      <button mat-menu-item type="button" (click)="toggleDarkMode()">
+        {{ isDarkMode ? 'Light mode' : 'Dark mode' }}
+      </button>
+      <button mat-menu-item (click)="logout()">Logout</button>
+    </mat-menu>
+
+    <main class="content-body">
+      <router-outlet></router-outlet>
+    </main>
+  </section>
+</div>

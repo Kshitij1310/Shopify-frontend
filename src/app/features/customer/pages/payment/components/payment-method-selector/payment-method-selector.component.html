@@ -1,0 +1,40 @@
+<section class="method-selector" aria-label="Payment methods">
+  <div class="selector-header">
+    <div>
+      <p class="eyebrow">Choose a method</p>
+      <h3>Payment Method</h3>
+    </div>
+    <span class="selector-badge">Tabs</span>
+  </div>
+
+  <div class="method-grid" role="tablist" aria-label="Select payment method">
+    @for (option of options; track option.id) {
+      <button
+        type="button"
+        class="method-option"
+        [class.active]="selectedMethod() === option.id"
+        [class.upi]="option.accent === 'upi'"
+        [class.card]="option.accent === 'card'"
+        [class.wallet]="option.accent === 'wallet'"
+        [attr.aria-pressed]="selectedMethod() === option.id"
+        (click)="select(option.id)"
+      >
+        <div class="option-icon">
+          <lucide-icon [name]="option.icon" size="20"></lucide-icon>
+        </div>
+
+        <div class="option-copy">
+          <strong>{{ option.title }}</strong>
+          <span>{{ option.subtitle }}</span>
+          <div class="option-chips">
+            @for (chip of option.chips; track chip) {
+              <span>{{ chip }}</span>
+            }
+          </div>
+        </div>
+
+        <lucide-icon class="chevron" name="chevron-right" size="18"></lucide-icon>
+      </button>
+    }
+  </div>
+</section>

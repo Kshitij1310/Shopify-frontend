@@ -1,0 +1,150 @@
+.method-selector {
+  display: grid;
+  gap: 16px;
+}
+
+.selector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.selector-header h3 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 1.2rem;
+}
+
+.selector-badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.08);
+  color: #1d4ed8;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.method-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.method-option {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  width: 100%;
+  padding: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  text-align: left;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.method-option:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.08);
+}
+
+.method-option.active {
+  border-color: rgba(37, 99, 235, 0.42);
+  box-shadow: 0 18px 30px rgba(37, 99, 235, 0.12);
+}
+
+.method-option.upi.active {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(255, 255, 255, 1));
+}
+
+.method-option.card.active {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(255, 255, 255, 1));
+}
+
+.method-option.wallet.active {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(255, 255, 255, 1));
+}
+
+.option-icon {
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: #eef2ff;
+  color: #1d4ed8;
+}
+
+.method-option.upi .option-icon {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.method-option.card .option-icon {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.method-option.wallet .option-icon {
+  background: #f5f3ff;
+  color: #7c3aed;
+}
+
+.option-copy {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.option-copy strong {
+  color: #0f172a;
+  font-size: 1rem;
+}
+
+.option-copy span {
+  color: #64748b;
+  font-size: 0.92rem;
+}
+
+.option-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.option-chips span {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #f8fafc;
+  color: #475569;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.chevron {
+  color: #94a3b8;
+}
+
+@media (max-width: 640px) {
+  .method-option {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .chevron {
+    display: none;
+  }
+}

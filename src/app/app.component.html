@@ -1,0 +1,9 @@
+<app-loader></app-loader>
+
+@if (!(isLayoutManagedPage$ | async)) {
+  <app-navbar></app-navbar>
+}
+
+<main class="app-shell" [class.auth-page]="isLayoutManagedPage$ | async">
+  <router-outlet></router-outlet>
+</main>

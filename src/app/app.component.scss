@@ -1,0 +1,22 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+.app-shell {
+  min-height: calc(100vh - 64px);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  
+  &.auth-page {
+    min-height: 100vh;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+  }
+}

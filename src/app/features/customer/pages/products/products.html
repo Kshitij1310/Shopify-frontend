@@ -1,0 +1,74 @@
+<!-- FILTERS BAR -->
+<div class="page-wrapper">
+  <div class="page-header">
+    <!-- <h1 class="page-title">All Products</h1>
+    <span class="product-count">{{ filteredProducts.length }} items</span> -->
+  </div>
+
+  <!-- PRODUCT GRID -->
+  <div class="card-grid">
+    @for (product of pagedProducts; track product.id) {
+      <div class="product-card" role="button" tabindex="0" (click)="openProductDetail(product.id)">
+        <div class="card-image-wrapper">
+          <img
+            class="card-image"
+            [src]="product.imageUrl || defaultImageUrl"
+            [alt]="product.name"
+            width="400"
+            height="200"
+            loading="eager"
+            (error)="onImageError($event)"
+          />
+          <span class="category-badge">{{ product.category }}</span>
+          <button class="wishlist-btn" (click)="$event.stopPropagation(); addToWishlist(product)" title="Add to Wishlist">
+            <lucide-icon name="heart-plus" size="18"></lucide-icon>
+          </button>
+        </div>
+
+        <div class="card-body">
+          <h3 class="product-name">{{ product.name }}</h3>
+          <p class="product-price">{{ product.price | currency:'INR':'symbol':'1.0-0' }}</p>
+          <p class="stock-info" [class.out-of-stock]="isOutOfStock(product)">
+            {{ getStockLabel(product) }}
+          </p>
+
+          <div class="card-actions">
+            <button class="btn btn-outline" (click)="$event.stopPropagation(); openProductDetail(product.id)">
+              View Details
+            </button>
+            <button class="btn btn-primary" [disabled]="isOutOfStock(product)" (click)="$event.stopPropagation(); addToCart(product)">
+              @if (isOutOfStock(product)) {
+                Out of Stock
+              } @else {
+                <lucide-icon name="shopping-cart" size="16"></lucide-icon>
+                Add to Cart
+              }
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- EMPTY STATE -->
+  @if (pagedProducts.length === 0) {
+    <div class="empty-state">
+      <div class="empty-icon">
+        <lucide-icon name="shopping-bag" size="52"></lucide-icon>
+      </div>
+      <h3>No products found</h3>
+      <p>Try adjusting your search or filters</p>
+    </div>
+  }
+
+  <!-- PAGINATOR -->
+  <div class="paginator-wrapper">
+    <mat-paginator
+      [length]="filteredProducts.length"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[4, 8, 12]"
+      [pageIndex]="pageIndex"
+      (page)="onPageChange($event)"
+    ></mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="left">
+    <div class="signup-card">
+      <h3 class="logo">ShopHub</h3>
+      <p class="welcome">Get started</p>
+      <h2>Create your account</h2>
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div>
+          <label for="name">Full Name</label>
+          <input id="name" type="text" formControlName="name" placeholder="Enter your full name" />
+        </div>
+
+        <div>
+          <label for="email">Email Address</label>
+          <input id="email" type="email" formControlName="email" placeholder="Enter your email" />
+        </div>
+
+        <div>
+          <label for="password">Password</label>
+          <input id="password" type="password" formControlName="password" placeholder="Create a password" />
+        </div>
+
+        <div>
+          <label for="role">Account Type</label>
+          <select id="role" formControlName="role">
+            @for (role of roles; track role) {
+              <option [value]="role">{{ role === 'customer' ? 'Customer' : 'Seller' }}</option>
+            }
+          </select>
+        </div>
+
+        <button type="submit">CREATE ACCOUNT</button>
+      </form>
+
+      <p class="signin-link">
+        Already have an account? <span routerLink="/auth/login">Sign in</span>
+      </p>
+    </div>
+  </div>
+
+  <div class="right">
+    <img src="assets/products/Signup.svg" alt="Signup illustration" />
+    <div class="hero-copy">
+      <p class="hero-kicker">One Account, All Features</p>
+      <h3>Start shopping or selling today.</h3>
+      <p>Join ShopHub and manage orders, cart, and wishlist with ease.</p>
+    </div>
+  </div>
+</div>

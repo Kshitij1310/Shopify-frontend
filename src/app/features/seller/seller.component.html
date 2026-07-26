@@ -1,0 +1,24 @@
+<section class="seller-shell">
+	<header class="seller-topbar">
+		<div class="brand-block">
+			<p class="kicker">Seller Workspace</p>
+			<h1>Seller Console</h1>
+		</div>
+
+		<nav class="seller-nav" aria-label="Seller sections">
+			<a routerLink="/seller/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
+			<a routerLink="/seller/products/new" routerLinkActive="active">Add Product</a>
+			<a routerLink="/seller/orders" routerLinkActive="active">Orders</a>
+		</nav>
+
+		<div class="seller-user">
+			<span class="badge">Seller</span>
+			<span class="name">{{ sellerName$ | async }}</span>
+			<button type="button" class="logout-btn" (click)="logout()">Logout</button>
+		</div>
+	</header>
+
+	<main class="seller-content">
+		<router-outlet></router-outlet>
+	</main>
+</section>

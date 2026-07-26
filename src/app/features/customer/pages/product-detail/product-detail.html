@@ -1,0 +1,111 @@
+<div class="detail-wrapper">
+
+  <div class="breadcrumb">
+    <a routerLink="/customer/products">Products</a>
+    <span>›</span>
+    <span>{{ product?.name ?? 'Product Detail' }}</span>
+  </div>
+
+  @if (isNotFound) {
+    <div class="empty-detail glass-card">
+      <div class="empty-icon" aria-hidden="true">🔍</div>
+      <h2>Product Not Found</h2>
+      <p>This product may have been removed or doesn't exist.</p>
+      <button class="btn-primary" routerLink="/customer/products">
+        Back to Products
+      </button>
+    </div>
+  }
+
+  @if (product) {
+    <div class="detail-card glass-card">
+      <section class="image-section">
+        <div class="image-glow" aria-hidden="true"></div>
+        <span class="category-tag">{{ product.category }}</span>
+        <img
+          class="product-image"
+          [src]="product.imageUrl || defaultImageUrl"
+          [alt]="product.name"
+          width="400"
+          height="200"
+          loading="eager"
+          (error)="onImageError($event)"
+        />
+      </section>
+
+      <section class="info-section">
+        <header class="headline">
+          <h1 class="product-name">{{ product.name }}</h1>
+          <div class="pill-row">
+            <span class="pill" [class.out-of-stock]="isOutOfStock">
+              {{ isOutOfStock ? 'Out of stock' : (availableQuantity + ' left') }}
+            </span>
+            <span class="pill muted">Secure checkout</span>
+          </div>
+        </header>
+
+        <div class="price-section">
+          <div>
+            <span class="price-label">Price</span>
+            <span class="price">{{ product.price | currency:'INR':'symbol':'1.0-0' }}</span>
+          </div>
+          <span class="tax-note">Inclusive of taxes</span>
+        </div>
+
+        <p class="product-description">{{ product.description }}</p>
+
+        <div class="divider"></div>
+
+        <div class="meta-info">
+          <div class="meta-row">
+            <span class="meta-icon">📦</span>
+            <span>Category: <strong>{{ product.category }}</strong></span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-icon">🚚</span>
+            <span>Free delivery on orders over <strong>₹999</strong></span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-icon">↩️</span>
+            <span><strong>7-day</strong> easy returns</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="purchase-panel">
+          <div class="quantity-section">
+            <span class="quantity-label">Quantity</span>
+            <div class="quantity-controls">
+              <button type="button" (click)="decreaseQuantity()" [disabled]="quantity <= 1" aria-label="Decrease quantity">−</button>
+              <input
+                type="number"
+                [ngModel]="quantity"
+                (ngModelChange)="onQuantityChange($event)"
+                min="1"
+                [max]="maxSelectableQuantity"
+                inputmode="numeric"
+                aria-label="Quantity"
+                [disabled]="isOutOfStock"
+              />
+              <button type="button" (click)="increaseQuantity()" [disabled]="quantity >= maxSelectableQuantity || isOutOfStock" aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-primary" type="button" [disabled]="isOutOfStock" (click)="addToCart()">
+              {{ isOutOfStock ? 'Out of Stock' : '🛒 Add to Cart' }}
+            </button>
+            <button class="btn btn-outline" type="button" (click)="addToWishlist()">
+              ♡ Wishlist
+            </button>
+          </div>
+
+          <p class="purchase-note">Fast delivery, secure payment, and quick returns in one flow.</p>
+        </div>
+
+      </section>
+    </div>
+  }
+
+</div>

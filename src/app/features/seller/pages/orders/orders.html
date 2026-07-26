@@ -1,0 +1,79 @@
+<div class="orders-shell">
+  <header class="orders-header">
+    <div class="title-block">
+      <p class="kicker">Seller Operations</p>
+      <h1>Orders for My Products</h1>
+      <p class="subtitle">Manage and track all orders linked to your catalog.</p>
+    </div>
+    <div class="header-stats">
+      <div class="stat-card">
+        <span class="stat-label">Total Orders</span>
+        <strong class="stat-value">{{ orders.length }}</strong>
+      </div>
+    </div>
+  </header>
+
+  @if (orders.length === 0) {
+    <mat-card class="empty-state">
+      <div class="empty-content">
+        <p class="empty-icon">📋</p>
+        <h3>No Orders Yet</h3>
+        <p>When customers purchase your products, orders will appear here for tracking and management.</p>
+      </div>
+    </mat-card>
+  } @else {
+    <div class="orders-list">
+      @for (order of orders; track order.id) {
+        <mat-card class="order-card">
+          <div class="order-header">
+            <div class="order-title-group">
+              <h3 class="order-id">Order #{{ order.id?.substring(0, 8) | uppercase }}</h3>
+              <p class="order-date">{{ formatDate(order.createdAt) }}</p>
+            </div>
+            <div class="order-badges">
+              <span class="badge" [class.success]="order.status === 'placed'" [class.failed]="order.status === 'failed'">
+                {{ order.status | titlecase }}
+              </span>
+              <span class="badge payment" [class.success]="order.paymentStatus === 'success'" [class.pending]="order.paymentStatus === 'pending'" [class.failed]="order.paymentStatus === 'failed'">
+                {{ order.paymentStatus | titlecase }}
+              </span>
+            </div>
+          </div>
+
+          <div class="order-customer">
+            <p class="customer-label">Shipped To</p>
+            <p class="customer-name">{{ order.address.fullName }}</p>
+            <p class="customer-address">{{ order.address.line1 }}, {{ order.address.city }}</p>
+          </div>
+
+          <div class="order-items">
+            <p class="items-label">Items Ordered</p>
+            <div class="items-list">
+              @for (item of order.items; track item.id) {
+                <div class="item-row">
+                  <div class="item-info">
+                    <p class="item-name">{{ item.product.name }}</p>
+                    <p class="item-meta">Qty: {{ item.quantity }} • Rs. {{ formatCurrency(item.product.price) }} each</p>
+                  </div>
+                  <strong class="item-total">Rs. {{ formatCurrency(item.product.price * item.quantity) }}</strong>
+                </div>
+              }
+            </div>
+          </div>
+
+          <div class="order-summary">
+            <div class="summary-row">
+              <span>Subtotal ({{ getTotalUnits(order) }} items)</span>
+              <span>Rs. {{ formatCurrency(getOrderTotalAmount(order)) }}</span>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-row total">
+              <span>Total Amount</span>
+              <strong>Rs. {{ formatCurrency(getOrderTotalAmount(order)) }}</strong>
+            </div>
+          </div>
+        </mat-card>
+      }
+    </div>
+  }
+</div>

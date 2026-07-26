@@ -1,0 +1,659 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$ecommerce-primary: mat.$azure-palette;
+$ecommerce-accent: mat.$orange-palette;
+
+$ecommerce-theme: mat.define-theme(
+  (
+    color: (
+      primary: $ecommerce-primary,
+      tertiary: $ecommerce-accent,
+    ),
+    typography: (
+      brand-family: 'Poppins, Segoe UI, sans-serif',
+      plain-family: 'Poppins, Segoe UI, sans-serif',
+    ),
+    density: (
+      scale: -1,
+    ),
+  )
+);
+
+:root {
+  @include mat.all-component-themes($ecommerce-theme);
+  --page-bg: #f6f1e8;
+  --surface: #ffffff;
+  --surface-alt: #fbf8f2;
+  --line: rgba(15, 23, 42, 0.08);
+  --text: #1f2937;
+  --muted: #667085;
+  --accent: #c76a2a;
+  --accent-dark: #a9521f;
+}
+
+body.dark-mode {
+  --page-bg: #0f172a;
+  --surface: #111827;
+  --surface-alt: #1f2937;
+  --line: rgba(148, 163, 184, 0.18);
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --accent: #f59e0b;
+  --accent-dark: #d97706;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(199, 106, 42, 0.06), transparent 30%),
+    linear-gradient(180deg, #f8f4ec 0%, #f4efe7 100%);
+  color: var(--text);
+}
+
+html.dark-mode,
+body.dark-mode {
+  background:
+    radial-gradient(circle at top left, rgba(245, 158, 11, 0.12), transparent 30%),
+    linear-gradient(180deg, #0f172a 0%, #111827 100%);
+  color: var(--text);
+}
+
+body {
+  min-height: 100vh;
+}
+
+.main-content {
+  height: 100%;
+  overflow-y: auto;
+}
+
+app-root {
+  display: block;
+  min-height: 100vh;
+}
+
+mat-card {
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+}
+
+body.dark-mode mat-card,
+body.dark-mode .mat-mdc-card {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--line) !important;
+  box-shadow: 0 12px 26px rgba(2, 6, 23, 0.4);
+}
+
+body.dark-mode .customer-shell,
+body.dark-mode .seller-shell {
+  --accent: #f59e0b;
+  --accent-hover: #f59e0b;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --border: rgba(148, 163, 184, 0.18);
+  --surface: #111827;
+  --bg: #0f172a;
+  background: var(--bg);
+}
+
+body.dark-mode .sidebar,
+body.dark-mode .seller-topbar,
+body.dark-mode .content-header {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+body.dark-mode .sidebar nav a.active {
+  background: rgba(245, 158, 11, 0.14) !important;
+  color: #fde68a !important;
+}
+
+body.dark-mode .sidebar nav a:hover,
+body.dark-mode .seller-nav a:hover {
+  background: rgba(148, 163, 184, 0.12);
+  color: #f3f4f6 !important;
+}
+
+body.dark-mode .sidebar nav a,
+body.dark-mode .seller-nav a,
+body.dark-mode .user-name,
+body.dark-mode .heading-row h3,
+body.dark-mode .page-hero h2,
+body.dark-mode .hero-copy h2,
+body.dark-mode .hero-side h3,
+body.dark-mode .hero-bottom-left h3,
+body.dark-mode .card h4,
+body.dark-mode .price,
+body.dark-mode .product-form-header h1,
+body.dark-mode .orders-header h1,
+body.dark-mode .dashboard-header h2,
+body.dark-mode .payment-hero h2,
+body.dark-mode .history-hero h2,
+body.dark-mode .empty-state h2,
+body.dark-mode .empty-state h3,
+body.dark-mode .wallet-head h3,
+body.dark-mode .wallet-balance strong,
+body.dark-mode .order-id,
+body.dark-mode .customer-name,
+body.dark-mode .customer-address,
+body.dark-mode .subtitle {
+  color: var(--text) !important;
+}
+
+body.dark-mode .content-wrap,
+body.dark-mode .home-page,
+body.dark-mode .page-wrapper,
+body.dark-mode .page-hero,
+body.dark-mode .hero-text,
+body.dark-mode .hero-card,
+body.dark-mode .hero-feature-card,
+body.dark-mode .hero-small-card,
+body.dark-mode .hero-main,
+body.dark-mode .hero-side,
+body.dark-mode .hero-bottom-left,
+body.dark-mode .card,
+body.dark-mode .product-card,
+body.dark-mode .wishlist-card,
+body.dark-mode .photo-card,
+body.dark-mode .form-card,
+body.dark-mode .wallet-card,
+body.dark-mode .empty-panel,
+body.dark-mode .order-panel,
+body.dark-mode .order-card,
+body.dark-mode .mini-metric,
+body.dark-mode .kpi-card,
+body.dark-mode .stat-card,
+body.dark-mode .product-form-header,
+body.dark-mode .payment-hero,
+body.dark-mode .history-hero,
+body.dark-mode .cart-header,
+body.dark-mode .orders-header,
+body.dark-mode .dashboard-header {
+  background: var(--surface) !important;
+}
+
+body.dark-mode .hero-main,
+body.dark-mode .hero-side,
+body.dark-mode .hero-bottom-left,
+body.dark-mode .hero-feature-card,
+body.dark-mode .hero-small-card,
+body.dark-mode .product-card,
+body.dark-mode .card,
+body.dark-mode .page-hero {
+  border-color: var(--border) !important;
+  background-color: var(--surface) !important;
+}
+
+body.dark-mode .profile-page,
+body.dark-mode .cart-container,
+body.dark-mode .wishlist-page,
+body.dark-mode .checkout-page {
+  color: var(--text) !important;
+}
+
+body.dark-mode .profile-page .heading-row h2,
+body.dark-mode .cart-header h1,
+body.dark-mode .wishlist-hero h2,
+body.dark-mode .checkout-hero h2 {
+  color: #f3f4f6 !important;
+}
+
+body.dark-mode .profile-page .heading-row p,
+body.dark-mode .cart-header .item-count,
+body.dark-mode .wishlist-hero,
+body.dark-mode .checkout-page .hero-copy,
+body.dark-mode .checkout-page .saved-addresses h4,
+body.dark-mode .checkout-page .selected-address p,
+body.dark-mode .checkout-page .address-content p,
+body.dark-mode .checkout-page .summary-row span {
+  color: var(--muted) !important;
+}
+
+body.dark-mode .profile-page .photo-card,
+body.dark-mode .profile-page .form-card,
+body.dark-mode .cart-container .empty-state,
+body.dark-mode .cart-container .cart-items,
+body.dark-mode .cart-container .summary-card,
+body.dark-mode .wishlist-page .wishlist-card,
+body.dark-mode .wishlist-page .empty-state,
+body.dark-mode .checkout-page .address-card,
+body.dark-mode .checkout-page mat-card,
+body.dark-mode .checkout-page .address-option,
+body.dark-mode .checkout-page .selected-address {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+body.dark-mode .cart-container .cart-item,
+body.dark-mode .cart-container .items-header,
+body.dark-mode .cart-container .summary-row,
+body.dark-mode .cart-container .summary-section,
+body.dark-mode .cart-container .item-image,
+body.dark-mode .checkout-page .badge-card {
+  border-color: var(--border) !important;
+}
+
+body.dark-mode .cart-container .cart-item:hover,
+body.dark-mode .wishlist-page .wishlist-card:hover,
+body.dark-mode .checkout-page .address-option:hover {
+  background: rgba(148, 163, 184, 0.08) !important;
+}
+
+body.dark-mode .cart-container .item-details h3,
+body.dark-mode .cart-container .item-total .total-amount,
+body.dark-mode .cart-container .summary-row strong,
+body.dark-mode .wishlist-page .wishlist-card h3,
+body.dark-mode .checkout-page .saved-addresses h4,
+body.dark-mode .checkout-page .selected-address h4,
+body.dark-mode .profile-page label {
+  color: #f3f4f6 !important;
+}
+
+body.dark-mode .cart-container .item-price,
+body.dark-mode .cart-container .item-stock,
+body.dark-mode .cart-container .items-title,
+body.dark-mode .cart-container .total-label,
+body.dark-mode .wishlist-page .description,
+body.dark-mode .checkout-page .address-option p,
+body.dark-mode .checkout-page .default-chip,
+body.dark-mode .profile-page .file-name,
+body.dark-mode .profile-page input[readonly] {
+  color: var(--muted) !important;
+}
+
+body.dark-mode .checkout-page .default-chip {
+  background: rgba(245, 158, 11, 0.14) !important;
+  border: 1px solid rgba(245, 158, 11, 0.24) !important;
+  color: #fde68a !important;
+}
+
+body.dark-mode .profile-page input,
+body.dark-mode .checkout-page input,
+body.dark-mode .checkout-page textarea,
+body.dark-mode .cart-container .item-quantity,
+body.dark-mode .cart-container .qty-input,
+body.dark-mode .wishlist-page button[color="warn"] {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+body.dark-mode .profile-page .upload-btn,
+body.dark-mode .cart-container .shop-btn,
+body.dark-mode .wishlist-page button[color="primary"],
+body.dark-mode .checkout-page .address-option.selected,
+body.dark-mode .checkout-page .form-actions button[type="submit"] {
+  background: var(--accent) !important;
+  color: #111827 !important;
+}
+
+body.dark-mode .page-hero,
+body.dark-mode .product-form-header,
+body.dark-mode .payment-hero,
+body.dark-mode .history-hero,
+body.dark-mode .orders-header,
+body.dark-mode .dashboard-header,
+body.dark-mode .cart-header {
+  background: linear-gradient(180deg, #111827 0%, #1f2937 100%) !important;
+}
+
+body.dark-mode .hero-main,
+body.dark-mode .hero-side,
+body.dark-mode .hero-bottom-left,
+body.dark-mode .hero-feature-card,
+body.dark-mode .hero-small-card {
+  background: linear-gradient(180deg, #111827 0%, #1f2937 100%) !important;
+}
+
+body.dark-mode .trust-strip article,
+body.dark-mode .story-card,
+body.dark-mode .bottom-band-card,
+body.dark-mode .story-item {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+body.dark-mode .story-copy h2,
+body.dark-mode .story-card h2,
+body.dark-mode .bottom-band-card h3,
+body.dark-mode .story-item h3 {
+  color: #f3f4f6 !important;
+}
+
+body.dark-mode .trust-strip p,
+body.dark-mode .story-copy p,
+body.dark-mode .story-label,
+body.dark-mode .story-item p {
+  color: var(--muted) !important;
+}
+
+body.dark-mode .hero-copy h2,
+body.dark-mode .hero-text h1,
+body.dark-mode .hero-feature-text h2,
+body.dark-mode .hero-side h3,
+body.dark-mode .hero-bottom-left h3,
+body.dark-mode .offer-pct,
+body.dark-mode .page-hero h2,
+body.dark-mode .product-name,
+body.dark-mode .product-card .product-name,
+body.dark-mode .card h4,
+body.dark-mode .product-card h3,
+body.dark-mode .product-card h4 {
+  color: #f3f4f6 !important;
+}
+
+body.dark-mode .hero-copy p,
+body.dark-mode .hero-text .hero-sub,
+body.dark-mode .hero-feature-text p,
+body.dark-mode .offer-sub,
+body.dark-mode .page-hero .hero-copy,
+body.dark-mode .card .price,
+body.dark-mode .product-price,
+body.dark-mode .product-card .stock-info,
+body.dark-mode .hero-copy,
+body.dark-mode .hero-small-card p,
+body.dark-mode .hero-feature-card p {
+  color: var(--muted) !important;
+}
+
+body.dark-mode .badge,
+body.dark-mode .sale-tag,
+body.dark-mode .category-badge,
+body.dark-mode .badge-card {
+  background: rgba(245, 158, 11, 0.14) !important;
+  border-color: rgba(245, 158, 11, 0.24) !important;
+  color: #fde68a !important;
+}
+
+body.dark-mode .card,
+body.dark-mode .product-card,
+body.dark-mode .wishlist-card,
+body.dark-mode .photo-card,
+body.dark-mode .form-card,
+body.dark-mode .wallet-card,
+body.dark-mode .empty-panel,
+body.dark-mode .order-panel,
+body.dark-mode .order-card,
+body.dark-mode .mini-metric,
+body.dark-mode .kpi-card,
+body.dark-mode .stat-card {
+  box-shadow: 0 12px 26px rgba(2, 6, 23, 0.38) !important;
+}
+
+body.dark-mode .product-card .card-image-wrapper,
+body.dark-mode .product-card .category-badge,
+body.dark-mode .hero-feature-img,
+body.dark-mode .hero-image-side {
+  filter: saturate(0.9) brightness(0.92);
+}
+
+body.dark-mode .chip,
+body.dark-mode .outline-btn,
+body.dark-mode .filter-control select,
+body.dark-mode .search-shell input,
+body.dark-mode .item-quantity,
+body.dark-mode .info-card,
+body.dark-mode .items-wrap {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+body.dark-mode .chip-active,
+body.dark-mode .hero-main button,
+body.dark-mode .hero-side button,
+body.dark-mode .hero-bottom-left button,
+body.dark-mode .card button,
+body.dark-mode .save-btn,
+body.dark-mode .btn.btn-primary,
+body.dark-mode .checkout-btn,
+body.dark-mode .shop-btn,
+body.dark-mode .logout-btn,
+body.dark-mode .upload-btn {
+  background: var(--accent) !important;
+  color: #111827 !important;
+}
+
+/* Customer home: improve dark-mode depth/contrast balance */
+body.dark-mode .home-page .page-hero {
+  background: linear-gradient(180deg, #0f1b32 0%, #13233f 100%) !important;
+  border-color: rgba(148, 163, 184, 0.22) !important;
+}
+
+body.dark-mode .home-page .hero-feature-card {
+  background: linear-gradient(180deg, #12213a 0%, #162a47 100%) !important;
+  border-color: rgba(148, 163, 184, 0.22) !important;
+}
+
+body.dark-mode .home-page .product-card {
+  background: #13233f !important;
+  border-color: rgba(148, 163, 184, 0.22) !important;
+}
+
+body.dark-mode .home-page .product-meta,
+body.dark-mode .home-page .hero-sub,
+body.dark-mode .home-page .hero-feature-text p {
+  color: #9fb0c7 !important;
+}
+
+body.dark-mode .home-page .price {
+  color: #f7b34b !important;
+}
+
+body.dark-mode .home-page .rating {
+  background: rgba(148, 163, 184, 0.14) !important;
+  color: #dbe7f7 !important;
+}
+
+body.dark-mode .home-page .chip {
+  background: #101d34 !important;
+  border-color: rgba(148, 163, 184, 0.28) !important;
+  color: #c6d4e8 !important;
+}
+
+body.dark-mode .home-page .chip-active {
+  background: #f59e0b !important;
+  border-color: #f59e0b !important;
+  color: #111827 !important;
+}
+
+body.dark-mode .home-page .wishlist-btn,
+body.dark-mode .home-page .add-circle {
+  background: #0f1b32 !important;
+  border-color: rgba(148, 163, 184, 0.35) !important;
+  color: #f7b34b !important;
+}
+
+body.dark-mode .home-page .product-img-wrap {
+  border-bottom-color: rgba(148, 163, 184, 0.18) !important;
+}
+
+body.dark-mode .home-page .products-grid .product-card:nth-child(5n + 1) .product-img-wrap {
+  background: #2b3b4d !important;
+}
+
+body.dark-mode .home-page .products-grid .product-card:nth-child(5n + 2) .product-img-wrap {
+  background: #3a352f !important;
+}
+
+body.dark-mode .home-page .products-grid .product-card:nth-child(5n + 3) .product-img-wrap {
+  background: #2f3e3a !important;
+}
+
+body.dark-mode .home-page .products-grid .product-card:nth-child(5n + 4) .product-img-wrap {
+  background: #3a3340 !important;
+}
+
+body.dark-mode .home-page .products-grid .product-card:nth-child(5n + 5) .product-img-wrap {
+  background: #2f3946 !important;
+}
+
+body.dark-mode .mat-mdc-menu-panel,
+body.dark-mode .mat-mdc-menu-content,
+body.dark-mode .mat-mdc-menu-item {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.trust-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.trust-strip article,
+.story-card,
+.bottom-band-card,
+.story-item {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  color: var(--text);
+}
+
+.trust-strip article {
+  padding: 16px;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.05);
+}
+
+.trust-strip .trust-value {
+  display: inline-flex;
+  margin-bottom: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.trust-strip p,
+.story-copy p,
+.story-label,
+.story-item p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(360px, 0.9fr);
+  gap: 16px;
+}
+
+.story-card {
+  border-radius: 22px;
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-alt) 100%);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+}
+
+.story-copy {
+  padding: 28px;
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+.story-copy h2 {
+  margin: 0;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  max-width: 14ch;
+}
+
+.story-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.story-panel {
+  padding: 22px;
+  display: grid;
+  gap: 14px;
+}
+
+.story-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.story-list {
+  display: grid;
+  gap: 10px;
+}
+
+.story-item {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.story-item img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 12px;
+  background: var(--bg);
+}
+
+.story-item h3 {
+  margin: 0 0 2px;
+  font-size: 0.96rem;
+  color: var(--text);
+}
+
+.story-item p {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.bottom-band {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.bottom-band-card {
+  padding: 24px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-alt) 100%);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+}
+
+.bottom-band-card h3 {
+  margin: 8px 0 16px;
+  font-size: 1.2rem;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+.bottom-band-card button {
+  width: fit-content;
+}

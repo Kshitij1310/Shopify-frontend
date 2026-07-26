@@ -1,0 +1,260 @@
+.product-form-shell {
+  display: grid;
+  gap: 24px;
+  padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.product-form-header {
+  background: linear-gradient(135deg, #1f2937 0%, #475569 55%, #64748b 100%);
+  padding: 32px 28px;
+  border-radius: 18px;
+  color: white;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.1);
+
+  h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
+  }
+
+  p {
+    font-size: 14px;
+    margin: 0;
+    opacity: 0.85;
+    font-weight: 500;
+  }
+}
+
+.form-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+  padding: 28px !important;
+
+  &:hover {
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+    transition: box-shadow 0.3s ease;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.image-section {
+  display: grid;
+  gap: 12px;
+}
+
+.image-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a202c;
+  display: block;
+  margin-bottom: 4px;
+  letter-spacing: 0.3px;
+}
+
+.image-upload {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #faf7f2;
+  border: 2px solid rgba(148, 163, 184, 0.2);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #f6f1ea;
+    border-color: rgba(148, 163, 184, 0.34);
+  }
+
+  input[type="file"] {
+    display: none;
+  }
+}
+
+.browse-btn {
+  white-space: nowrap;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 8px 16px !important;
+  border-color: #cbd5e1 !important;
+  color: #1a202c !important;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #e2e8f0 !important;
+    border-color: #94a3b8 !important;
+  }
+}
+
+.file-info {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.preview-container {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  background: #faf7f2;
+  border-radius: 12px;
+  margin-top: 8px;
+}
+
+.preview {
+  width: min(280px, 100%);
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.save-btn {
+  flex: 1;
+  height: 44px;
+  font-size: 14px;
+  font-weight: 600;
+  background: #c76a2a !important;
+  border-radius: 8px;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(199, 106, 42, 0.22);
+  }
+}
+
+.delete-btn {
+  height: 44px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+  border-color: #ef4444 !important;
+  color: #ef4444 !important;
+
+  &:hover {
+    background: #fff1f1 !important;
+  }
+}
+
+// Dark mode for form fields
+::ng-deep {
+  .product-form-shell {
+    mat-form-field {
+      .mat-mdc-form-field-focus-overlay {
+        background-color: rgba(37, 99, 235, 0.05);
+      }
+
+      &.mat-focused {
+        .mdc-notched-outline__leading,
+        .mdc-notched-outline__notch,
+        .mdc-notched-outline__trailing {
+          border-color: #2563eb !important;
+        }
+      }
+
+      .mdc-notched-outline__leading,
+      .mdc-notched-outline__notch,
+      .mdc-notched-outline__trailing {
+        border-color: #cbd5e1 !important;
+      }
+
+      .mat-mdc-form-field-label {
+        color: #475569 !important;
+      }
+    }
+
+    .mat-mdc-text-field-wrapper {
+      padding-bottom: 0.75em;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 1100px) {
+  .product-form-shell {
+    gap: 20px;
+    padding: 0 16px;
+  }
+
+  .product-form-header {
+    padding: 24px 20px;
+
+    h1 {
+      font-size: 24px;
+    }
+  }
+
+  .form-card {
+    padding: 24px !important;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 780px) {
+  .product-form-shell {
+    gap: 16px;
+    padding: 0 12px;
+  }
+
+  .product-form-header {
+    padding: 20px 16px;
+
+    h1 {
+      font-size: 20px;
+    }
+
+    p {
+      font-size: 12px;
+    }
+  }
+
+  .form-card {
+    padding: 16px !important;
+    border-radius: 12px;
+  }
+
+  .form-grid {
+    gap: 12px;
+  }
+
+  .actions {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+  }
+}

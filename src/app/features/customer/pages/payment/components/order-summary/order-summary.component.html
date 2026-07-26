@@ -1,0 +1,53 @@
+<mat-card class="summary-card">
+  <div class="summary-header">
+    <div>
+      <p class="eyebrow">Checkout details</p>
+      <h3>Order Summary</h3>
+    </div>
+    <span class="secure-badge">
+      <lucide-icon name="lock" size="16"></lucide-icon>
+      Secure Payment
+    </span>
+  </div>
+
+  <div class="summary-highlights">
+    @for (item of highlights; track item) {
+      <span>{{ item }}</span>
+    }
+  </div>
+
+  <div class="rows">
+    <div class="row"><span>Subtotal</span><strong>Rs. {{ summary().subtotal.toFixed(2) }}</strong></div>
+    <div class="row"><span>Tax (10%)</span><strong>Rs. {{ summary().tax.toFixed(2) }}</strong></div>
+    @if (summary().discount > 0) {
+      <div class="row discount"><span>Discount</span><strong>- Rs. {{ summary().discount.toFixed(2) }}</strong></div>
+    }
+    <div class="row total"><span>Grand Total</span><strong>Rs. {{ summary().total.toFixed(2) }}</strong></div>
+  </div>
+
+  <form class="coupon-form" [formGroup]="couponForm" (ngSubmit)="applyCoupon()">
+    <mat-form-field appearance="outline">
+      <mat-label>Coupon code</mat-label>
+      <input matInput formControlName="couponCode" placeholder="SAVE10" autocomplete="off" />
+      @if (hasError('required')) {
+        <mat-error>Enter a coupon code.</mat-error>
+      }
+      @if (hasError('minlength')) {
+        <mat-error>Coupon code must be at least 3 characters.</mat-error>
+      }
+    </mat-form-field>
+
+    <button mat-stroked-button type="submit">Apply</button>
+  </form>
+
+  @if (appliedCoupon()) {
+    <div class="coupon-pill">
+      <lucide-icon name="tag" size="16"></lucide-icon>
+      Applied coupon: {{ appliedCoupon() }}
+    </div>
+  }
+
+  <div class="powered-by">
+    <span>Powered by Razorpay / Stripe (mock)</span>
+  </div>
+</mat-card>

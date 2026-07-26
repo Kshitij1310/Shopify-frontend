@@ -1,0 +1,97 @@
+<section class="order-history-page">
+  <header class="history-hero">
+    <div>
+      <p class="eyebrow">My Purchases</p>
+      <h2>Order History</h2>
+      <p class="hero-copy">Track your recent orders, payment status, and delivery details in one place.</p>
+    </div>
+    <div class="hero-kpis">
+      <div class="kpi-card">
+        <span>Total Orders</span>
+        <strong>{{ orders.length }}</strong>
+      </div>
+      <div class="kpi-card">
+        <span>Total Spent</span>
+        <strong>Rs. {{ formatCurrency(totalSpent) }}</strong>
+      </div>
+      <div class="kpi-card">
+        <span>Success Rate</span>
+        <strong>{{ formatPercent(successRate) }}</strong>
+      </div>
+    </div>
+  </header>
+
+  @if (orders.length === 0) {
+    <mat-card class="empty-card">
+      <h3>No Orders Yet</h3>
+      <p>Start shopping to see your order timeline here.</p>
+      <button mat-flat-button color="primary" routerLink="/customer/products">Browse Products</button>
+    </mat-card>
+  } @else {
+    <mat-accordion class="orders-accordion" multi>
+      @for (order of orders; track order.id) {
+        <mat-expansion-panel class="order-panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div class="order-head">
+                <span class="order-id">Order #{{ order.id }}</span>
+                <span class="order-date">{{ order.createdAt | date : 'mediumDate' }}</span>
+              </div>
+            </mat-panel-title>
+            <mat-panel-description>
+              <div class="order-meta">
+                <span [class]="getOrderStatusClass(order.status)">{{ order.status }}</span>
+                <span [class]="getPaymentStatusClass(order.paymentStatus)">{{ order.paymentStatus }}</span>
+                <strong class="amount">Rs. {{ formatCurrency(order.amount) }}</strong>
+              </div>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div class="order-body">
+            <div class="info-grid">
+              <article class="info-card">
+                <h4>Order Summary</h4>
+                <p><span>Items:</span><strong>{{ getOrderItemCount(order) }}</strong></p>
+                <p><span>Amount:</span><strong>Rs. {{ formatCurrency(order.amount) }}</strong></p>
+                <p><span>Placed:</span><strong>{{ order.createdAt | date : 'medium' }}</strong></p>
+              </article>
+
+              <article class="info-card">
+                <h4>Delivery Address</h4>
+                <p>{{ order.address.fullName }}</p>
+                <p>{{ order.address.line1 }}, {{ order.address.city }}</p>
+                <p>{{ order.address.state }} - {{ order.address.zip }}</p>
+                <p>{{ order.address.phone }}</p>
+              </article>
+            </div>
+
+            <div class="items-wrap">
+              <h4>Items in This Order</h4>
+              <mat-list>
+                @for (item of order.items; track item.id) {
+                  <mat-list-item>
+                    <div class="item-row">
+                      <span class="item-name">{{ item.product.name }}</span>
+                      <span class="item-qty">x {{ item.quantity }}</span>
+                      <span class="item-price">Rs. {{ formatCurrency(item.product.price * item.quantity) }}</span>
+                    </div>
+                  </mat-list-item>
+                }
+              </mat-list>
+            </div>
+
+            <div class="action-row">
+              @if (canCancelOrder(order)) {
+                <button mat-stroked-button color="warn" type="button" (click)="cancelOrder(order)">
+                  Cancel Order
+                </button>
+              } @else {
+                <span class="action-note">This order can no longer be canceled.</span>
+              }
+            </div>
+          </div>
+        </mat-expansion-panel>
+      }
+    </mat-accordion>
+  }
+</section>
